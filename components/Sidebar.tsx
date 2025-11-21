@@ -36,7 +36,7 @@ export const Sidebar: FC<SidebarProps> = ({
         {/* Header */}
         <div className="h-16 flex items-center px-6 border-b border-slate-800 shrink-0 bg-slate-900">
           <BookOpenIcon className="w-6 h-6 text-blue-500 mr-3" />
-          <span className="font-bold text-lg text-white tracking-tight">C++ MasterClass</span>
+          <span className="font-bold text-lg text-white tracking-tight">C++语法基础 by vic cai</span>
         </div>
 
         {/* Scrollable Content */}
@@ -76,7 +76,8 @@ export const Sidebar: FC<SidebarProps> = ({
         
         {/* Footer */}
         <div className="p-4 border-t border-slate-800 text-xs text-center text-slate-500">
-          &copy; {new Date().getFullYear()} C++ MasterClass
+          <div className="mb-1">&copy; {new Date().getFullYear()} C++语法基础 by vic cai</div>
+          <div>tel：15592899868</div>
         </div>
       </aside>
     </>
