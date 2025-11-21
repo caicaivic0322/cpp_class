@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { Chapter, Topic } from '../types';
 import { ChevronRightIcon, BookOpenIcon } from './Icons';
 
@@ -10,73 +10,73 @@ interface SidebarProps {
   onCloseMobile: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ 
+export const Sidebar: FC<SidebarProps> = ({ 
   chapters, 
   currentTopicId, 
-  onSelectTopic,
-  isOpen,
-  onCloseMobile
+  onSelectTopic, 
+  isOpen, 
+  onCloseMobile 
 }) => {
   return (
     <>
-      {/* Mobile Overlay */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-          onClick={onCloseMobile}
-        />
-      )}
+      {/* Mobile Backdrop */}
+      <div 
+        className={`fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 ${
+          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={onCloseMobile}
+      />
 
-      {/* Sidebar Content */}
-      <aside className={`
-        fixed top-0 left-0 z-50 h-screen w-72 bg-white border-r border-slate-200
-        transform transition-transform duration-300 ease-in-out
-        lg:translate-x-0 lg:static lg:flex-shrink-0
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
-        <div className="flex items-center gap-3 h-16 px-6 border-b border-slate-100 bg-slate-50">
-          <div className="bg-blue-600 p-1.5 rounded-lg text-white">
-             <BookOpenIcon className="w-5 h-5" />
-          </div>
-          <span className="font-bold text-lg text-slate-800 tracking-tight">C++ MasterClass</span>
+      {/* Sidebar Container */}
+      <aside 
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-72 bg-slate-900 text-slate-300 transform transition-transform duration-300 ease-in-out flex flex-col h-full border-r border-slate-800 ${
+          isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        }`}
+      >
+        {/* Header */}
+        <div className="h-16 flex items-center px-6 border-b border-slate-800 shrink-0 bg-slate-900">
+          <BookOpenIcon className="w-6 h-6 text-blue-500 mr-3" />
+          <span className="font-bold text-lg text-white tracking-tight">C++ MasterClass</span>
         </div>
 
-        <div className="overflow-y-auto h-[calc(100vh-4rem)] py-4">
-          {chapters.map((chapter) => (
-            <div key={chapter.id} className="mb-6 px-4">
-              <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 px-2">
-                {chapter.title}
-              </h3>
-              <div className="space-y-0.5">
-                {chapter.topics.map((topic) => {
-                  const isActive = currentTopicId === topic.id;
-                  return (
-                    <button
-                      key={topic.id}
-                      onClick={() => {
-                        onSelectTopic(topic);
-                        onCloseMobile();
-                      }}
-                      className={`
-                        w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center justify-between group
-                        ${isActive 
-                          ? 'bg-blue-50 text-blue-700' 
-                          : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}
-                      `}
-                    >
-                      <span>{topic.title}</span>
-                      {isActive && <ChevronRightIcon className="w-4 h-4 opacity-100" />}
-                    </button>
-                  );
-                })}
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto py-6 px-3 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+          <div className="space-y-6">
+            {chapters.map((chapter) => (
+              <div key={chapter.id}>
+                <h3 className="px-3 text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                  {chapter.title}
+                </h3>
+                <div className="space-y-0.5">
+                  {chapter.topics.map((topic) => {
+                    const isActive = currentTopicId === topic.id;
+                    return (
+                      <button
+                        key={topic.id}
+                        onClick={() => onSelectTopic(topic)}
+                        className={`w-full flex items-center text-left px-3 py-2 rounded-lg text-sm transition-colors group ${
+                          isActive 
+                            ? 'bg-blue-600 text-white shadow-md shadow-blue-900/20' 
+                            : 'hover:bg-slate-800 hover:text-white'
+                        }`}
+                      >
+                        <span className={`mr-3 font-mono text-xs ${isActive ? 'text-blue-200' : 'text-slate-500 group-hover:text-slate-400'}`}>
+                          {topic.id}
+                        </span>
+                        <span className="truncate">{topic.title.split(' ').slice(1).join(' ')}</span>
+                        {isActive && <ChevronRightIcon className="w-4 h-4 ml-auto opacity-75" />}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ))}
-          
-          <div className="mt-8 px-6 text-xs text-slate-400 pb-8">
-            <p>Designed for Students</p>
-            <p>© 2025 C++ Learning</p>
+            ))}
           </div>
+        </div>
+        
+        {/* Footer */}
+        <div className="p-4 border-t border-slate-800 text-xs text-center text-slate-500">
+          &copy; {new Date().getFullYear()} C++ MasterClass
         </div>
       </aside>
     </>

@@ -1,10 +1,10 @@
-import React from 'react';
+import { FC } from 'react';
 
 interface CodeBlockProps {
   code: string;
 }
 
-export const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
+export const CodeBlock: FC<CodeBlockProps> = ({ code }) => {
   return (
     <div className="relative group my-6 rounded-lg overflow-hidden bg-slate-900 shadow-lg ring-1 ring-white/10">
       <div className="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity">

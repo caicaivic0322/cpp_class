@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { COURSE_CONTENT } from './constants';
 import { Topic } from './types';
 import { Sidebar } from './components/Sidebar';
@@ -18,6 +18,7 @@ export default function App() {
   const handleTopicSelect = (topic: Topic) => {
     setCurrentTopic(topic);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsSidebarOpen(false); // Close mobile sidebar on selection
   };
 
   // Find adjacent topics for navigation buttons
@@ -67,7 +68,7 @@ export default function App() {
             </h1>
 
             <div className="prose prose-slate max-w-none">
-              <p className="text-lg text-slate-600 leading-relaxed">
+              <p className="text-lg text-slate-600 leading-relaxed whitespace-pre-wrap">
                 {currentTopic.content}
               </p>
 
